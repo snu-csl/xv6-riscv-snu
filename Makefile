@@ -1,3 +1,19 @@
+# SNU ----------------------------------------------------
+# Please specify your student ID:
+STUDENTID =
+
+# Do not change the following PANUM
+PANUM = pa1
+_PANUM = $(strip $(PANUM))
+ifndef STUDENTID
+$(error Please set STUDENTID in Makefile)
+endif
+ifneq ($(shell git rev-parse --abbrev-ref HEAD), $(_PANUM))
+$(error You are not on $(_PANUM) branch; do "$$ git checkout $(_PANUM)")
+endif
+_STUDENTID = $(strip $(STUDENTID))
+#---------------------------------------------------------
+
 K=kernel
 U=user
 
@@ -53,7 +69,7 @@ TOOLPREFIX := $(shell if riscv64-unknown-elf-objdump -i 2>&1 | grep 'elf64-big' 
 endif
 
 QEMU = qemu-system-riscv64
-MIN_QEMU_VERSION = 7.2
+MIN_QEMU_VERSION = 8.2
 
 CC = $(TOOLPREFIX)gcc
 LD = $(TOOLPREFIX)ld
@@ -63,7 +79,7 @@ OBJDUMP = $(TOOLPREFIX)objdump
 # Deterministic builds.
 DETFLAGS = -ffile-prefix-map=$(CURDIR)=.
 
-CFLAGS = -Wall -Werror -Wno-unknown-attributes -O -fno-omit-frame-pointer -ggdb -gdwarf-2
+CFLAGS = -Wall -Werror -Wno-unknown-attributes -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -DSNU
 CFLAGS += $(DETFLAGS)
 CFLAGS += -march=rv64gc
 CFLAGS += -std=gnu99
@@ -198,6 +214,17 @@ check-qemu-version:
 		echo "ERROR: Need qemu version >= $(MIN_QEMU_VERSION)"; \
 		exit 1; \
 	fi
+
+# SNU ----------------------------------------------------
+TARBALL = ../xv6-$(_PANUM)-$(_STUDENTID).tar.gz
+FILES = ./Makefile ./$K ./$U ./mkfs
+
+submit:
+	make clean
+	@rm -f $(TARBALL)
+	@tar cvzf $(TARBALL) $(FILES)
+	@echo "Please submit $(TARBALL) file"
+#---------------------------------------------------------
 
 .PHONY: fmt
 fmt:
