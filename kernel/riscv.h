@@ -1,5 +1,11 @@
 #ifndef __ASSEMBLER__
 
+#ifdef SNU
+#define PMP_R   (1)
+#define PMP_W   (1 << 1)
+#define PMP_X   (1 << 2)
+#endif
+
 // which hart (core) is this?
 static inline uint64
 r_mhartid()

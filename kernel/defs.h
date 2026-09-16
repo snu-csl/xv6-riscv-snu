@@ -10,6 +10,11 @@ struct sleeplock;
 struct stat;
 struct superblock;
 
+#ifdef SNU
+// pmp.c
+void            setpmp(void);
+#endif
+
 // bio.c
 void            binit(void);
 struct buf*     bread(uint, uint);

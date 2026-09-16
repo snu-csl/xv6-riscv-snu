@@ -43,3 +43,7 @@ entry("sbrk");
 entry("pause");
 entry("uptime");
 entry("sync");
+# SNU
+entry("nenter");
+entry("getpmpaddr");
+entry("getpmpcfg");

@@ -32,10 +32,14 @@ start()
   w_mideleg(0xffff);
   w_sie(r_sie() | SIE_SEIE | SIE_STIE);
 
+#ifdef SNU
+    setpmp();
+#else
   // configure Physical Memory Protection to give supervisor mode
   // access to all of physical memory.
   w_pmpaddr0(0x3fffffffffffffull);
   w_pmpcfg0(0xf);
+#endif
 
   // enable hardware updates of page table A and D bits
   w_menvcfg(r_menvcfg() | MENVCFG_ADUE);
