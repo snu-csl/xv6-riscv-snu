@@ -16,6 +16,10 @@ pagetable_t kernel_pagetable;
 extern char etext[]; // kernel.ld sets this to end of kernel code.
 
 extern char trampoline[]; // trampoline.S
+ 
+#ifdef SNU
+int pagefaults;     // only for page faults that occur in a memory-mapped region
+#endif
 
 // Make a direct-map page table for the kernel.
 pagetable_t

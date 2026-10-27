@@ -25,6 +25,12 @@ char *sys_sbrk(int, int);
 int pause(int);
 int uptime(void);
 int sync(void);
+#ifdef SNU
+int kcall(int);
+void *ktest(int, void *);
+void *mmap(void *, int, int, int);
+int munmap(void *);
+#endif
 
 // ulib.c
 int stat(const char *, struct stat *);

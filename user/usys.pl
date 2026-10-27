@@ -43,3 +43,8 @@ entry("sbrk");
 entry("pause");
 entry("uptime");
 entry("sync");
+# SNU
+entry("kcall");
+entry("ktest");
+entry("mmap");
+entry("munmap");

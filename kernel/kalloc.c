@@ -23,6 +23,10 @@ struct {
   struct run *freelist;
 } kmem;
 
+#ifdef SNU
+int freemem, used4k, used2m;
+#endif
+
 void
 kinit()
 {
@@ -80,3 +84,33 @@ kalloc(void)
     memset((char *)r, 5, PGSIZE); // fill with junk
   return (void *)r;
 }
+
+#ifdef SNU
+void *
+kalloc_huge(void)
+{
+  // PA4: FILL HERE
+
+
+
+
+
+
+
+
+
+  return (void *)0;
+}
+
+void
+kfree_huge(void *pa)
+{
+  // PA4: FILL HERE
+
+
+
+
+
+
+}
+#endif

@@ -60,6 +60,11 @@ void            ireclaim(int);
 void*           kalloc(void);
 void            kfree(void *);
 void            kinit(void);
+#ifdef SNU
+void*           kalloc_huge(void);
+void            kfree_huge(void *);
+extern int      freemem, used4k, used2m;
+#endif
 
 // log.c
 void            initlog(int, struct superblock*);
@@ -170,6 +175,9 @@ int             copyin(pagetable_t, uint64, char *, uint64, uint64);
 int             copyinstr(pagetable_t, uint64, char *, uint64, uint64);
 int             ismapped(pagetable_t, uint64);
 uint64          vmfault(pagetable_t, uint64, uint64, int);
+#ifdef SNU
+extern int      pagefaults;
+#endif
 
 // plic.c
 void            plicinit(void);

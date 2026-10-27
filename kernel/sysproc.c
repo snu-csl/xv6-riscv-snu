@@ -110,3 +110,44 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+#ifdef SNU
+uint64
+sys_kcall(void)
+{
+  int n;
+
+  argint(0, &n);
+  switch (n)
+  {
+    case KC_FREEMEM:    return freemem;
+    case KC_USED4K:     return used4k;
+    case KC_USED2M:     return used2m;
+    case KC_PF:         return pagefaults;
+    default:            return -1;
+  }
+}
+
+uint64
+sys_mmap(void)
+{
+  // PA4: FILL HERE
+
+
+
+
+
+  return 0;
+}
+
+uint64
+sys_munmap(void)
+{
+  // PA4: FILL HERE
+
+
+
+
+  return 0;
+}
+#endif
