@@ -55,6 +55,10 @@ void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, int, uint64, uint, uint);
 void            itrunc(struct inode*);
 void            ireclaim(int);
+#ifdef SNU
+int             defrag(void);
+uint            fsfreeblks(void);
+#endif
 
 // kalloc.c
 void*           kalloc(void);
@@ -178,6 +182,9 @@ int             plic_claim(void);
 void            plic_complete(int);
 
 // virtio_disk.c
+#ifdef SNU
+extern uint64   diskwrites;
+#endif
 void            virtio_disk_init(void);
 void            virtio_disk_rw(struct buf *, int);
 void            virtio_disk_intr(void);

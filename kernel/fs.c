@@ -42,7 +42,7 @@ void
 fsinit(int dev)
 {
   readsb(dev, &sb);
-  if (sb.magic != FSMAGIC)
+  if (sb.magic != FSMAGIC_DEFAT)
     panic("invalid file system");
   initlog(dev, &sb);
   ireclaim(dev);
@@ -739,3 +739,35 @@ nameiparent(char *path, char *name)
 {
   return namex(path, 1, name);
 }
+
+
+#ifdef SNU
+// Number of free data blocks; reported by ^f on the console.
+uint
+fsfreeblks(void)
+{
+
+  // TODO: return the number of free data blocks.
+
+
+
+  return 0;
+}
+
+
+// Reorganize the data region so that every file occupies a consecutive run
+// of blocks and all blocks in use are packed at its start.
+// Returns the number of blocks relocated, or -1 if the file system cannot be
+// defragmented. See Part 4 of the project specification for the full list of
+// conditions the result must satisfy.
+int
+defrag(void)
+{
+
+  // TODO: return the number of blocks relocated.
+
+
+
+  return -1;
+}
+#endif

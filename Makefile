@@ -3,7 +3,7 @@
 STUDENTID =
 
 # Do not change the following PANUM
-PANUM = pa4
+PANUM = pa5
 _PANUM = $(strip $(PANUM))
 ifndef STUDENTID
 $(error Please set STUDENTID in Makefile)
@@ -137,7 +137,11 @@ $U/_forktest: $U/forktest.o $(ULIB)
 	$(OBJDUMP) -S $U/_forktest > $U/forktest.asm
 
 mkfs/mkfs: mkfs/mkfs.c $K/fs.h $K/param.h
-	gcc -Wno-unknown-attributes -I. -o mkfs/mkfs mkfs/mkfs.c
+	gcc -Wno-unknown-attributes -DSNU -I. -o mkfs/mkfs mkfs/mkfs.c
+
+# SNU
+mkfs/fragstat: mkfs/fragstat.c
+	gcc -Wall -Wno-unknown-attributes -o mkfs/fragstat mkfs/fragstat.c
 
 # Prevent deletion of intermediate files, e.g. cat.o, after first build, so
 # that disk image changes after first build are persistent until clean.  More
@@ -166,8 +170,9 @@ UPROGS=\
 	$U/_forphan\
 	$U/_dorphan\
 	$U/_sync\
+	$U/_defrag\
 
-fs.img: mkfs/mkfs README $(UPROGS)
+fs.img: mkfs/mkfs mkfs/fragstat README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
 
 -include kernel/*.d user/*.d
@@ -176,7 +181,7 @@ clean:
 	rm -f *.tex *.dvi *.idx *.aux *.log *.ind *.ilg \
 	*/*.o */*.d */*.asm */*.sym \
 	$K/kernel fs.img \
-	mkfs/mkfs .gdbinit \
+	mkfs/mkfs mkfs/fragstat .gdbinit \
         $U/usys.S \
 	$(UPROGS)
 

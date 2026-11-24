@@ -5,7 +5,9 @@ _*
 *.asm
 *.sym
 *.img
+!fs-defat.img
 /mkfs/mkfs
+/mkfs/fragstat
 /kernel/kernel
 /user/usys.S
 .gdbinit

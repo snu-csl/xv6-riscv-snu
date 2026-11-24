@@ -146,11 +146,15 @@ filewrite(struct file *f, uint64 addr, int n)
       return -1;
     ret = devsw[f->major].write(1, addr, n);
   } else if (f->type == FD_INODE) {
+#ifdef SNU
+    int max = 3 * BSIZE;
+#else
     // write a few blocks at a time to avoid exceeding
     // the maximum log transaction size, including
     // i-node, indirect block, allocation blocks,
     // and 2 blocks of slop for non-aligned writes.
     int max = ((MAXOPBLOCKS - 1 - 1 - 2) / 2) * BSIZE;
+#endif
     int i = 0;
     while (i < n) {
       int n1 = n - i;

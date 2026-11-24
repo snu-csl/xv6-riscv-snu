@@ -149,6 +149,14 @@ consoleintr(int c)
   acquire(&cons.lock);
 
   switch (c) {
+#ifdef SNU
+  case C('W'): // Print the number of disk writes made since boot
+    printk("disk writes: %d\n", (int)diskwrites);
+    break;
+  case C('F'): // Print the number of free data blocks
+    printk("free blocks: %d\n", fsfreeblks());
+    break;
+#endif
   case C('P'): // Print process list.
     procdump();
     break;

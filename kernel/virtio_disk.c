@@ -212,12 +212,22 @@ alloc3_desc(int *idx)
   return 0;
 }
 
+#ifdef SNU
+// Number of block writes issued to the disk since boot.
+// Reading it without the lock is fine: nothing depends on an exactly consistent value.
+uint64 diskwrites;
+#endif
+
 void
 virtio_disk_rw(struct buf *b, int write)
 {
   uint64 sector = b->blockno * (BSIZE / 512);
 
   acquire(&disk.vdisk_lock);
+#ifdef SNU
+  if (write)
+    diskwrites++;
+#endif
 
   // the spec's Section 5.2 says that legacy block operations use
   // three descriptors: one for type/reserved/sector, one for the

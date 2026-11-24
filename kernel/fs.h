@@ -21,7 +21,18 @@ struct superblock {
   uint bmapstart;  // Block number of first free map block
 };
 
+#ifdef SNU
+#define FSMAGIC_DEFAT 0x44464154  // 'D' 'F' 'A' 'T'
+#endif
 #define FSMAGIC 0x10203040
+
+#ifdef SNU
+// A deFAT entry is an unsigned 16-bit value. Anything other than the two
+// sentinels below is the number of the next block in the chain of a file,
+// or of the free list.
+#define FAT_EOC   0       // end of the chain
+#define FAT_RSVD  0xFFFF  // a reserved block: boot, super, log, FAT or inode
+#endif
 
 #define NDIRECT   12
 #define NINDIRECT (BSIZE / sizeof(uint))

@@ -528,3 +528,12 @@ sys_pipe(void)
   }
   return 0;
 }
+
+#ifdef SNU
+uint64
+sys_defrag(void)
+{
+
+  return defrag();
+}
+#endif
